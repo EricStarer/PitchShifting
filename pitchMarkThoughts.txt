@@ -1,0 +1,11 @@
+what to do about silence detection? calculate energy first before even attempting to run the YIN algorithm?
+what if the threshold is such that frames which aren't silent are considered so? there was sort of an example of this.
+if we use the frequency estimate from the previous frame and the silence is at the end of a sound decaying this is fine 
+since the frequency of the frame will very likely be the same. the attack in the at the beginning of a sound should
+spike the energy enough that it should happen in the beginning. the pitch mark detection algorithm for a guitar signal
+is much less complicated than that for speech signals as the waveform is much less complicated. the main problem now
+is what to do with the frames that are considered silence. how do we establish the pitchmark locations, use the same
+maximum based method or just use a fixed rate? when windowing the frame and overlapping it with the others how much does
+having a "correct" pitch mark placement matter considering we're just dealing with silence here? i suppose that would
+depend on how loud the "voiced" segments are in comparison (i.e what are the amplitude ratios?). normalizing would
+definitely have an impact here.

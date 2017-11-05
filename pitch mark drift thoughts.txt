@@ -1,0 +1,9 @@
+how to account for gradual pitch mark drift? how much will using "true" pitch period change this?
+should we eventually reset and align with a proper pitch mark? if so how do we know when to? could
+we measure drift somehow? that's easy if B is set to 1 but if we're actually shifting the signal by
+some amount then it would be harder to keep track of. maybe if everytime B goes to 1 it resets the
+the synthesis pitch marks to remove the effects of drift. maybe after a certain number of frames are 
+processed we automatically reset the pitch marks to be realigned? maybe base it on the amount of shift
+being applied? what kind of effect would pitch mark drift have anyways? would it necessarily be bad?
+it might result in everything being shifted a bit as long as it's applied in the same way, would that
+mitigate the audible effects?

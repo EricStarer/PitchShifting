@@ -1,0 +1,31 @@
+does it really matter having the extra window for computing the pitch period? would the results of the analysis
+apply to both windows as the second one was used within the computations? what if the frequency changes between
+the two windows? why did I select two windows to begin with? could this cause problems by allowing the calculated
+pitch period to be longer than a window length?-> no as i limit the values lag can be from 1 to W.
+
+what to do about cycles that cross between the different frames? shift and then recompute on next frame using
+already shifted component? does the shape of the cycle change between frames (it shoudn't)? can the hamming window
+and overlap add part help mitigate the effects? since we have 2 windows worth of data but are only shifting the contents
+of one can we use this to our advantage? could we check over the window line a bit if something is on the border to make
+sure that the pitch marks correspond with the actual maximums as opposed to the highest point in the window on a rising
+edge (consider frame 151)? could we remember to "ignore" (i.e. not shift) the first pitch mark in a frame if after
+changing their placement it goes over the window line? since there's the overlap and add component it might be worth
+saving anything that goes over the window edge in a buffer and then adding it to the next frame after the next set of
+pitch marks have been realigned (similar to what you did for the overlap-add FFT filters in the spectral delay VST plugin).
+how does this affect things if the pitch period changes in between the two windows? is this what the windowing overlap-add
+is for?
+
+are we correct in assuming that the maximum always corresponds to the pitch period? shouldn't the pitch marks relate more 
+to the symmetric nature of the waveforms? the difference in placement is generally pretty small (only a few samples max)?
+would this create an audible change in the output?
+
+more generally what to do if the frame doesn't start on at the begining of a cycle (which is most likely going to be the case)?
+simply shift where the pitch marks are by a constant amount until the hamming windows align? this would only be effective if
+the frequencies represented all had an integer number of cycles in each frame (clearly not the case)
+what if we overlapped the frames (if so by how much)? we would be computing redundant information in a way (the values
+wouldn't be entirely the same but the idea of what it's trying to do would), what would be done with the redundant results?
+if we kept track of the pitch marks in the previous frame we could (and know exactly how much is overlap) we could correctly
+identify pitchmarks that were caught on the edge of the frame but then how would we manage the shifting aspect?
+say we only shift the values where we can get a full 2Pi hanning window, where do we put/store them? create an output buffer
+where we store output that we're sure we have shifted properly (use pointers to keep track of where the next samples should be
+added/overlaped)?
